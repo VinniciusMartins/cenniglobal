@@ -44,6 +44,46 @@
         .provider{border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
             padding:10px 12px;color:var(--text);cursor:pointer}
         @media(max-width:420px){.providers{grid-template-columns:1fr}}
+
+        .swal2-popup.login-alert {
+            background: linear-gradient(135deg, #0b1220 0%, #0f172a 55%, #0b1220 100%);
+            border: 1px solid #1f2937;
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(0,0,0,.6);
+            padding: 22px;
+        }
+        .swal2-title.login-title {
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            color: #f1f5f9;
+            font-weight: 700;
+            letter-spacing: .2px;
+        }
+        .swal2-html-container.login-text {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+        .swal2-icon.login-icon.swal2-error {
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
+        }
+        .swal2-confirm.login-confirm {
+            background: #38bdf8 !important;
+            color: #06233a !important;
+            border-radius: 10px !important;
+            padding: 10px 18px !important;
+            font-weight: 800 !important;
+            box-shadow: 0 4px 14px rgba(56,189,248,.35) !important;
+        }
+        .swal2-cancel.login-cancel {
+            background: #111827 !important;
+            color: #e5e7eb !important;
+            border: 1px solid #334155 !important;
+            border-radius: 10px !important;
+            padding: 10px 18px !important;
+        }
+        .swal2-backdrop-show {
+            backdrop-filter: blur(4px);
+        }
     </style>
 </head>
 <body>
@@ -91,17 +131,52 @@
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@if ($errors->has('login_error'))
-    <script>
+<script>
+    function showLoginError(message) {
         Swal.fire({
             icon: 'error',
-            title: 'Oops...',
-            text: '{{ $errors->first('login_error') }}',
-            background: '#1e293b',
-            color: '#f1f5f9',
-            confirmButtonColor: '#38bdf8',
-            iconColor: '#ef4444'
+            title: 'Oops…',
+            text: message || 'E-mail ou senha inválidos.',
+            customClass: {
+                popup: 'login-alert',
+                title: 'login-title',
+                htmlContainer: 'login-text',
+                icon: 'login-icon',
+                confirmButton: 'login-confirm',
+                cancelButton: 'login-cancel'
+            },
+            showConfirmButton: true,
+            confirmButtonText: 'OK',
+            showCancelButton: false,
+            allowOutsideClick: true,
+            allowEscapeKey: true,
         });
-    </script>
+    }
+
+    function showSubmitting() {
+        Swal.fire({
+            title: 'Entrando…',
+            html: '<div style="color:#94a3b8;font-size:13px">Validando suas credenciais</div>',
+            customClass: { popup: 'login-alert', title: 'login-title', htmlContainer: 'login-text' },
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => Swal.showLoading()
+        });
+    }
+
+    // optional: show loading when submitting the form
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.querySelector('form[action*="login"]');
+        if (form) {
+            form.addEventListener('submit', () => {
+                showSubmitting();
+            });
+        }
+    });
+</script>
+
+@if ($errors->has('login_error'))
+    <script>showLoginError(@json($errors->first('login_error')));</script>
 @endif
+
 
