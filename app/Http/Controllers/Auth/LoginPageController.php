@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class LoginPageController extends Controller
@@ -33,7 +33,6 @@ class LoginPageController extends Controller
 
         $request->session()->regenerate();
 
-        // ✅ Redirect here after successful login
         return redirect()->away('https://www.cenniglobal.com');
     }
 }
