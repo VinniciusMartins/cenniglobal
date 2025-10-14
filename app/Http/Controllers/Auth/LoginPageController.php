@@ -32,7 +32,7 @@ class LoginPageController extends Controller
         }
 
         $request->session()->regenerate();
-
+        
         return redirect()->away('https://www.cenniglobal.com');
     }
 }
