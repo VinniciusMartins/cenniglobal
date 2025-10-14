@@ -52,7 +52,7 @@
         <div><h1 id="signin-title">Welcome back</h1><p>Sign in to your account</p></div>
     </div>
 
-    <form method="POST" action="#">
+    <form method="POST" action="{{ route('login.post') }}">
         @csrf
         <div class="field">
             <label for="email">Email</label>
