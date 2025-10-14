@@ -47,6 +47,7 @@
     </style>
 </head>
 <body>
+
 <main class="card" role="main" aria-labelledby="signin-title">
     <div class="brand">
         <div><h1 id="signin-title">Welcome back</h1><p>Sign in to your account</p></div>
@@ -57,7 +58,7 @@
         <div class="field">
             <label for="email">Email</label>
             <div class="control">
-                <input id="email" type="email" name="email" placeholder="you@example.com" required autocomplete="username">
+                <input id="email" type="email" name="email" value="{{ old('email') }}" placeholder="you@example.com" required autocomplete="username">
                 <span style="padding:0 12px; opacity:.65">@</span>
             </div>
         </div>
@@ -89,3 +90,18 @@
 </main>
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if ($errors->has('login_error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '{{ $errors->first('login_error') }}',
+            background: '#1e293b',
+            color: '#f1f5f9',
+            confirmButtonColor: '#38bdf8',
+            iconColor: '#ef4444'
+        });
+    </script>
+@endif
+
